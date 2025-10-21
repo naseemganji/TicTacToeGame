@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Game</title>
+    <link rel="stylesheet" href="css/game.css">
+</head>
+<body id="body">
+    
+    <!-- This container is needed to overlay our canvas over our table -->
+    <div class="center-container">
+        <canvas id="gameCanvas" width="600" height="600"></canvas>
+        <h1 id="gameTitle">Tic Tac Toe - Game!</h1>
+        
+        <!-- Player Names Section -->
+        <div class="player-names">
+            <h3>Player Names:</h3>
+            <p>
+                <strong>Player X:</strong> <span id="playerXName">Player 1</span> | 
+                <strong>Player O:</strong> <span id="playerOName">Player 2</span>
+            </p>
+            <button id="changeNamesBtn" class="change-names-btn">Change Names</button>
+        </div>
+
+        <!-- Game Status -->
+        <div class="game-status">
+            <h2 id="gameStatus">Player 1's Turn (X)</h2>
+        </div>
+
+        <!-- NOTE: Canvas width and height must be within the element -->
+        <canvas id="win-lines" width="608" height="608"></canvas>
+        
+        <!-- Game Table - Following the template structure -->
+        <table>
+            <tr>
+                <td id="0" onclick="placeXOrO('0')"></td>
+                <td id="1" onclick="placeXOrO('1')"></td>
+                <td id="2" onclick="placeXOrO('2')"></td>
+            </tr>
+            <tr>
+                <td id="3" onclick="placeXOrO('3')"></td>
+                <td id="4" onclick="placeXOrO('4')"></td>
+                <td id="5" onclick="placeXOrO('5')"></td>
+            </tr>
+            <tr>
+                <td id="6" onclick="placeXOrO('6')"></td>
+                <td id="7" onclick="placeXOrO('7')"></td>
+                <td id="8" onclick="placeXOrO('8')"></td>
+            </tr>
+        </table>
+
+        <!-- Score Section -->
+        <div class="score-section">
+            <div class="score-card">
+                <h4>Score Board</h4>
+                <p><span id="scorePlayerX">Player 1</span>: <span id="scoreX">0</span></p>
+                <p><span id="scorePlayerO">Player 2</span>: <span id="scoreO">0</span></p>
+                <p>Ties: <span id="scoreTies">0</span></p>
+            </div>
+            
+            <!-- Game Controls -->
+            <div class="controls">
+                <button id="newGameBtn" class="control-btn new-game">New Game</button>
+                <button id="resetScoreBtn" class="control-btn reset-score">Reset Score</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Name Input Modal (Hidden by default) -->
+    <div id="nameModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h3>Enter Player Names</h3>
+            <div class="input-group">
+                <label>Player X Name:</label>
+                <input type="text" id="inputPlayerX" class="name-input" placeholder="Player 1">
+            </div>
+            <div class="input-group">
+                <label>Player O Name:</label>
+                <input type="text" id="inputPlayerO" class="name-input" placeholder="Player 2">
+            </div>
+            <button id="saveNamesBtn" class="save-btn">Save Names</button>
+        </div>
+    </div>
+
+    <script src="js/tictactoe.js"></script>
+</body>
+</html>
