@@ -1,0 +1,410 @@
+/* This container includes our table and our canvas */
+.center-container {
+    /* This property sets the width of our container */
+    width: 608px;
+    /* This property centers our container */
+    margin: 0 auto;
+    /* 50px down from the top */
+    margin-top: 50px;
+    text-align: center;
+    position: relative; /* Important for canvas positioning */
+    /* Add minimum height to contain the canvas properly */
+    min-height: 700px;
+}
+
+/* Game variables */
+:root {
+    --primary-color: #1a252f;
+    --secondary-color: #2980b9;
+    --accent-color: #c0392b;
+    --success-color: #16a085;
+    --warning-color: #d68910;
+    --background-color: #f4f6f7;
+    --text-color: #1a252f;
+    --border-radius: 8px;
+}
+
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--background-color), #d5dbdb);
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+#gameTitle {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 20px 0 30px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+#gameTitle::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(45deg, var(--accent-color), var(--warning-color));
+    border-radius: 2px;
+}
+
+/*  game title */
+@media (max-width: 768px) {
+    #gameTitle {
+        font-size: 2rem;
+        margin: 15px 0 25px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    #gameTitle {
+        font-size: 1.7rem;
+        margin: 10px 0 20px 0;
+        letter-spacing: 0.5px;
+    }
+    
+    #gameTitle::after {
+        width: 50px;
+        height: 2px;
+    }
+}
+
+/* Player names section */
+.player-names {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.player-names h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.player-names p {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.change-names-btn {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.change-names-btn:hover {
+    background: #2471a3;
+    transform: translateY(-1px);
+}
+
+/* Game status */
+.game-status {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #d1ecf1;
+    border: 2px solid #17a2b8;
+    border-radius: var(--border-radius);
+    color: #0c5460;
+}
+
+.game-status h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Canvas for win lines - needs to be positioned relative to the table */
+canvas {
+    position: absolute;
+    pointer-events: none;
+    z-index: 10;
+    top: 50%; /* Center vertically within container */
+    left: 50%; /* Center horizontally within container */
+    transform: translate(-50%, -50%); /* Perfect centering */
+    width: 608px;
+    height: 608px;
+}
+
+/* Table styling similar to the template */
+table {
+    /* This property collapses table border into 1 border */
+    border-collapse: collapse;
+    /* This hides outer borders on table */
+    border-style: hidden;
+    margin: 0 auto 30px auto;
+    background: var(--primary-color);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Table cells - game squares */
+td {
+    width: 200px;
+    height: 200px;
+    border: 4px solid var(--primary-color);
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+td:hover {
+    background-color: #ecf0f1;
+    transform: scale(1.02);
+}
+
+/* Player symbols */
+td.x {
+    background-color: #fadbd8;
+    border-color: var(--accent-color);
+}
+
+td.o {
+    background-color: #d6eaf8;
+    border-color: var(--secondary-color);
+}
+
+/* Winner highlight */
+td.winner {
+    background-color: #d5f4e6 !important;
+    border-color: var(--success-color) !important;
+    animation: winnerPulse 1s infinite;
+}
+
+@keyframes winnerPulse {
+    0% { transform: scale(1); }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 0 20px rgba(22, 160, 133, 0.6);
+    }
+    100% { transform: scale(1); }
+}
+
+/* Score section */
+.score-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.score-card {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.score-card h4 {
+    color: var(--success-color);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.score-card p {
+    margin: 8px 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* Controls */
+.controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+}
+
+.control-btn {
+    padding: 12px 16px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+}
+
+.new-game {
+    background: var(--success-color);
+    color: white;
+}
+
+.new-game:hover {
+    background: #138d75;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(22, 160, 133, 0.3);
+}
+
+.reset-score {
+    background: var(--warning-color);
+    color: white;
+}
+
+.reset-score:hover {
+    background: #b7950b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(214, 137, 16, 0.3);
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 37, 47, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.modal-box h3 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.name-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #d5dbdb;
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1);
+}
+
+.save-btn {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.save-btn:hover {
+    background: #2471a3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .center-container {
+        width: 90%;
+        margin-top: 30px;
+    }
+    
+    td {
+        width: 150px;
+        height: 150px;
+    }
+    
+    canvas {
+        width: 456px !important;
+        height: 456px !important;
+    }
+    
+    .score-section {
+        flex-direction: column;
+        max-width: none;
+    }
+    
+    .player-names h3 {
+        font-size: 1.1rem;
+    }
+    
+    .game-status h2 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    td {
+        width: 120px;
+        height: 120px;
+    }
+    
+    canvas {
+        width: 372px !important;
+        height: 372px !important;
+    }
+    
+    .modal-box {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .center-container {
+        width: 95%;
+    }
+}
